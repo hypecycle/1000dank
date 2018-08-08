@@ -1,0 +1,50 @@
+/* Datei: addons1000dank.css */
+.satz {font-family: Verdana, Helvetica, Arial, Sans-Serif;
+	   font-style: normal;
+	   border-spacing: 5;
+	   color: black;
+	   }
+
+.nofocus {color: lightgrey;}
+
+h1.satz,
+h2.satz {font-weight: bold;
+		 font-size: 1.5rem;
+		 margin-bottom: 10;
+		 border-left: 2px solid black;
+	     padding-left: 12px;
+	   	}
+
+p.satz {font-weight: normal;
+	    font-size: 0.8rem;
+	    margin: 0;
+	    line-height: 1em;
+	    border-left: 2px solid black;
+	    padding-left: 12px;
+	    }
+
+a.satz {font-weight: normal;
+		font-size: 1rem;
+	    margin: 0;
+	    line-height: 1em;
+	    text-decoration: none;
+	    }
+
+a, u {
+    text-decoration: none;
+}
+
+.dooh	{font-family: Verdana, Helvetica, Arial, Sans-Serif;
+		color: white;
+		margin: 20px;
+		background-color: orange;
+		text-align: left;
+		}
+
+h1.dooh	{font-weight: bold;
+		font-size: 3.5em;
+		}
+
+h2.dooh {font-weight: normal;
+		font-size: 2.5em;
+		}

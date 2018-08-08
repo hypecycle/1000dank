@@ -1,0 +1,103 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+
+<!---  --->
+
+<br>
+<br>
+
+<br>
+<br>
+
+
+<form  action="" method="post" role="form">
+{{ form.csrf }}
+
+	<div class="w3-container">
+		<div class="w3-row">
+	  		{% for i in range (satz|length() + 1) %}
+	  			<div class="w3-col" style="width: {{ charsRow[i] }}% ">
+					<div class="w3-row">
+						<h1 class="satz nofocus">
+						{% if i < satz|length() %} 
+							{{ satz[i][0] }}
+						{% endif %}
+						</h2>
+						{% if fieldToAdd[0] == i and fieldToAdd[1] == 0 %}
+	    					<h2>{{ form.alterNeu(class_='satz', id="name", placeholder='Text eingeben') }}</h2>
+						    <input id="sendButt" name="addfriend" type="submit" value="OK" class="w3-black w3-hover-dark-grey w3-center satz">
+						{% endif %}
+					</div>
+				</div>
+	  		{% endfor %}
+		</div>
+
+		<div class="w3-row">
+	  		{% for i in range (satz|length() + 1) %}
+	  			<div class="w3-col" style="width: {{ charsRow[i] }}% ">
+	  			   {% for j in range (1, maxAltern + 1) %}
+
+					<div class="w3-row">
+						{% if i < satz|length() %} 
+							{% if j < satz[i]|length() %} 
+								<p class="satz nofocus">{{ satz[i][j] }}</p>&nbsp; 
+							{% endif %}
+						{% endif %}
+						&nbsp
+						{% if fieldToAdd[0] == i and fieldToAdd[1] == j %}
+	    					<br>{{ form.alterNeu(class_='satz', id="alterNeu", placeholder='Text eingeben') }}
+						    <input id="send" name="addfriend" type="submit" value="OK" class="w3-black w3-hover-dark-grey w3-center satz w3-margin">
+						{% endif %}
+					</div>
+					{% endfor %}
+				</div>
+				
+	  		{% endfor %}
+		</div>
+	</div>
+</form>
+
+
+<!-- reduced footer -->
+
+<div class="footer ">
+	<div class="w3-container">
+  		<div class="w3-row">
+	  		<div class="w3-quarter w3-container">
+	  			<!-- Space  -->
+			</div>
+  			<div class="w3-half w3-container">
+
+  				<div class="w3-cell-row">
+
+				   <div class="w3-container w3-cell w3-cell-middle">			    	
+				  </div>
+
+				  <div class="w3-container w3-cell w3-cell-middle">
+				</div>
+
+				  <div class="w3-container w3-cell w3-cell-middle">
+				    		    	<p>Satz {{ nr + 1 }} von {{ rows + 1 }} <br>
+						           {{ vari  }} Varianten /// XXX insgesamt </p>
+				  </div>
+
+				  <div class="w3-container w3-cell w3-cell-middle">	
+				  </div>
+
+				  <div class="w3-container w3-cell w3-cell-middle">
+				  </div>
+
+				</div>
+
+		  	</div>
+		  	<div class="w3-quarter w3-container">
+		    	<!-- Space  -->
+		  </div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+

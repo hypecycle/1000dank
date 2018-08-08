@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang = "de">
+<head>
+  <title>1000 Dank – {{ pageTitle }}</title>
+  <base href="{{ baseURL }}" target="_self">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--Live envoronment: add slash -->
+  <link rel="stylesheet" href="static/css/w3.css"> 
+  <link rel="stylesheet" href="static/css/w3-theme-black.css">
+  <link rel="stylesheet" href="static/css/addons1000dank.css">
+  <link rel="stylesheet" href="static/css/font-awesome.min.css">
+
+
+    <style>
+  .footer {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      background-color: none;
+      color: black;
+      text-align: center;
+  }
+
+</style>
+
+</head>
+
+<body class="dooh">
+<br>
+<br>
+
+
+<!-- footer -->
+
+<div class="w3-container titlebox">
+
+	<h1 class="dooh">Hej du!</h1>
+  	<h1 class="dooh">{{ displayText }} </h1>
+  </div>
+
+<br>
+
+<div class="footer">
+  <div class="w3-container titlebox">
+      <div class="w3-row">
+        <div class="w3-container">
+                      <h2 class="dooh">1000 Dank für die schönsten Momente zu Hause. </h2>
+        </div>
+      </div>
+      <div class="w3-row">
+        <div class="w3-half w3-container dooh">
+          <img src="static/img/logo.png" alt="75 Jahre IKEA" height="120" width="120">
+        </div>
+        <div class="w3-rest w3-container">
+          <br><br>
+          <img src="static/img/ikea.png" alt="75 Jahre IKEA" height="51" width="150">
+        </div>
+      </div>
+</div>
+</div>
+
+
+<!-- Script for Sidebar, Tabs, Accordions, Progress bars and slideshows -->
+<script>
+// Side navigation
+function w3_open() {
+    var x = document.getElementById("mySidebar");
+    x.style.width = "100%";
+    x.style.fontSize = "40px";
+    x.style.paddingTop = "10%";
+    x.style.display = "block";
+}
+function w3_close() {
+    document.getElementById("mySidebar").style.display = "none";
+}
+
+</script>
+
+
+</body>
+</html>
+

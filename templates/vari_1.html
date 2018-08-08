@@ -1,0 +1,113 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+
+<!---  --->
+
+<br>
+
+
+
+<div class="w3-container">
+	<div class="w3-row">
+		{% for i in range(vari|length()) %}
+		<h3 class = "satz">
+			<a href = "{{ url_for('navigate', satznr = vari[i][1]) }}"> {{ variNr + i }}.) {{ vari[i][0] }}  &nbsp; &nbsp; <i class="fa fa-angle-right fa-1x"></i></a>
+  		</h3>
+  		{% endfor %}
+	</div>
+</div>
+
+<br>
+<br>
+
+
+<!-- footer -->
+
+<div class="w3-container">
+
+		<div class="w3-row">
+  		<div class="w3-quarter w3-container">
+  			<!-- Space  -->
+		</div>
+			<div class="w3-half w3-container">
+
+				<div class="w3-cell-row">
+
+				  <div class="w3-container w3-cell w3-cell-middle">
+				    
+				    	{% if variNr >= 11 %}
+							<h1><a href="{{ url_for('vari', variNr = variNr - 11, variPerPage = 10) }}"><<</a></h1>
+						{%else%}
+							<h1 class = "w3-text-light-gray"><<</h1> 
+						{%endif%}				    	
+				  </div>
+
+				  <div class="w3-container w3-cell w3-cell-middle">
+				    	{% if variNr >= 2 %}
+							<h1><a href="{{ url_for('vari', variNr = variNr - 2, variPerPage = 10) }}"><</a></h1>
+						{%else%}
+							<h1 class = "w3-text-light-gray"><</h1>
+						{%endif%}			
+				  </div>
+
+
+				  <div class="w3-container w3-cell w3-cell-middle">
+				     	<a href="{{ url_for('new')}}"><i class="fa fa-plus fa-2x"></i></a>
+				  </div>
+
+				  <div class="w3-container w3-cell w3-cell-middle">
+				    	{% if variNr <= variSum -1 %}
+							<h1><a href="{{ url_for('vari', variNr = variNr, variPerPage = 10) }}">></a></h1>
+						{%else%}
+							<h1 class = "w3-text-light-gray">></h1>
+						{%endif%}			
+				  </div>
+
+				  <div class="w3-container w3-cell w3-cell-middle">
+				    	{% if variNr <= variSum - 10 %}
+							<h1><a href="{{ url_for('vari', variNr = variNr + 9, variPerPage = 10) }}">>></a></h1>
+						{%else%}
+							<h1 class = "w3-text-light-gray">>></h1>
+						{%endif%}			
+				  </div>
+
+				</div>
+
+				<div class="w3-cell-row">
+
+			   <div class="w3-container w3-cell w3-cell-middle">
+			    
+			    	    	
+			  </div>
+
+			  <div class="w3-container w3-cell w3-cell-middle">
+			    		
+			  </div>
+
+			  <div class="w3-container w3-cell w3-cell-middle">
+			    		    	<p>Varianten {{ variNr }} bis {{ variMax }} von <br>
+					           {{ variSum }} insgesamt </p>
+					        <!--<p>Direkt zu Satz [            ] Go!<p>-->
+			  </div>
+
+			  <div class="w3-container w3-cell w3-cell-middle">
+			    				
+			  </div>
+
+			  <div class="w3-container w3-cell w3-cell-middle">
+		
+			  </div>
+
+			</div>
+
+	  	</div>
+	  	<div class="w3-quarter w3-container">
+	    	<!-- Space  -->
+	  </div>
+	</div>
+</div>
+
+{% endblock %}
+

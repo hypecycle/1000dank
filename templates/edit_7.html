@@ -1,0 +1,153 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+
+<!---  --->
+
+<br>
+<br>
+
+<br>
+<br>
+<div class="w3-container">
+	<div class="w3-row">
+  		{% for i in range (satz|length() + 1) %}
+  			<div class="w3-col" style="width: {{ charsRow[i] }}% ">
+				<div class="w3-row">
+					<h1 class="satz">
+					{% if i < satz|length() %} 
+						{{ satz[i][0] }}&nbsp;{% if satz[i]|length() > 1 %}<a class = "satz" href="delete/{{ nr }}/{{ i }}/0"><i class="fa fa-close fa-1x"></i></a>{% endif %}
+					{% endif %}
+					{% if i == satz|length() %}
+					<a class = "satz" href="addlink/{{ nr }}/{{ i }}/0"><i class="fa fa-plus fa-1x"></i></a>
+					{% endif %}
+					</h2>
+				</div>
+			</div>
+  		{% endfor %}
+	</div>
+
+	<div class="w3-row">
+  		{% for i in range (satz|length() + 1) %}
+  			<div class="w3-col" style="width: {{ charsRow[i] }}% ">
+  			   {% for j in range (1, maxAltern + 1) %}
+
+				<div class="w3-row">
+					{% if i < satz|length() %} 
+						{% if j < satz[i]|length() %} 
+							<p class="satz">{{ satz[i][j] }}&nbsp; 
+								<a class = "satz" href="delete/{{ nr }}/{{ i }}/{{ j }}"><i class="fa fa-close fa-1x"></i></a></p> 
+						{% elif j == satz[i]|length()  %}
+							<p class="satz">{{ satz[i][j] }}&nbsp; 
+								<a class = "satz" href="addlink/{{ nr }}/{{ i }}/{{ j }}"><i class="fa fa-plus fa-1x"></i></a></p> 
+							&nbsp
+						{% endif %}
+					{% endif %}
+					&nbsp
+				</div>
+				{% endfor %}
+			</div>
+			
+  		{% endfor %}
+	</div>
+</div>
+
+
+
+<!-- reduced footer -->
+
+<div class="footer ">
+	<div class="w3-container">
+		  		<div class="w3-row">
+	  		<div class="w3-quarter w3-container">
+	  			<!-- Space  -->
+			</div>
+  			<div class="w3-half w3-container">
+
+  				<div class="w3-cell-row">
+
+				  				   <div class="w3-container w3-cell w3-cell-middle">
+				    
+				    	{% if nr >= 10 %}
+							<a href="navigate/{{ nr - 10 }}"><i class="fa fa-double-angle-left fa-1x"></i></a>
+						{%else%}
+							<h1 class = "w3-text-light-gray"><<</h1> 
+						{%endif%}				    	
+				  </div>
+
+				  <div class="w3-container w3-cell w3-cell-middle">
+				    	{% if nr >= 1 %}
+							<h1><a href="navigate/{{ nr - 1 }}"><</a></h1>
+						{%else%}
+							<h1 class = "w3-text-light-gray"><</h1>
+						{%endif%}			
+				  </div>
+
+
+				  <div class="w3-container w3-cell w3-cell-middle">
+				     	<a href="{{ url_for('new')}}"><i class="fa fa-plus fa-2x"></i></a>
+				  </div>
+
+				  <div class="w3-container w3-cell w3-cell-middle">
+				    	{% if nr <= rows -1 %}
+							<h1><a href="navigate/{{ nr + 1 }}">></a></h1>
+						{%else%}
+							<h1 class = "w3-text-light-gray">></h1>
+						{%endif%}			
+				  </div>
+
+				  <div class="w3-container w3-cell w3-cell-middle">
+				    	{% if nr <= rows - 10 %}
+							<h1><a href="navigate/{{ nr + 10 }}">>></a></h1>
+						{%else%}
+							<h1 class = "w3-text-light-gray">>></h1>
+						{%endif%}			
+				  </div>
+
+				</div>
+
+				</div>
+
+		  	</div>
+		  	<div class="w3-quarter w3-container">
+		    	<!-- Space  -->
+		  </div>
+		</div>
+  		<div class="w3-row">
+	  		<div class="w3-quarter w3-container">
+	  			<!-- Space  -->
+			</div>
+  			<div class="w3-half w3-container">
+
+  				<div class="w3-cell-row">
+
+				   <div class="w3-container w3-cell w3-cell-middle">			    	
+				  </div>
+
+				  <div class="w3-container w3-cell w3-cell-middle">
+				</div>
+
+				  <div class="w3-container w3-cell w3-cell-middle">
+				    		    	<p>Satz {{ nr + 1 }} von {{ rows + 1 }} <br>
+						           {{ vari  }} Varianten /// {{ variSum }} insgesamt </p>
+				  </div>
+
+				  <div class="w3-container w3-cell w3-cell-middle">	
+				  </div>
+
+				  <div class="w3-container w3-cell w3-cell-middle">
+				  </div>
+
+				</div>
+
+		  	</div>
+		  	<div class="w3-quarter w3-container">
+		    	<!-- Space  -->
+		  </div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+

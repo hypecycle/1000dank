@@ -1,0 +1,142 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+
+<!---  --->
+
+<br>
+<br>
+<br>
+<br>
+
+
+<div class="w3-container">
+	<div class="w3-row">
+  		{% for i in range (satz|length() + 1) %}
+  			<div class="w3-col" style="width: {{ charsRow[i] }}% ">
+				<div class="w3-row">
+					<h1 class="satz">
+					{% if i < satz|length() %} 
+						{{ satz[i][0] }}
+					{% endif %}
+					</h2>
+				</div>
+			</div>
+  		{% endfor %}
+	</div>
+
+	<div class="w3-row">
+  		{% for i in range (satz|length() + 1) %}
+  			<div class="w3-col" style="width: {{ charsRow[i] }}% ">
+  			   {% for j in range (1, maxAltern) %}
+
+				<div class="w3-row">
+					{% if i < satz|length() %} 
+						{% if j < satz[i]|length() %} 
+							<p class="satz">{{ satz[i][j] }}</p>
+						{% else %}
+							&nbsp
+						{% endif %}
+					{% endif %}
+					&nbsp
+				</div>
+				{% endfor %}
+			</div>
+			
+  		{% endfor %}
+	</div>
+</div>
+
+
+
+
+<!-- footer -->
+
+<div class="footer ">
+	<div class="w3-container">
+
+  		<div class="w3-row">
+	  		<div class="w3-quarter w3-container">
+	  			<!-- Space  -->
+			</div>
+  			<div class="w3-half w3-container">
+
+  				  <div class="w3-cell-row">
+
+				   <div class="w3-container w3-cell w3-cell-middle">
+				    
+				    	{% if nr >= 10%}
+							<h1><a href="navigate/{{ nr - 10 }}"><<</a></h1>
+						{%else%}
+							<!-- <h1><a href="navigate/0"><<</a></h1> -->
+							<h1><<</h1> 
+						{%endif%}				    	
+				  </div>
+
+				  <div class="w3-container w3-cell w3-cell-middle">
+				    	{% if nr >= 1 %}
+							<h1><a href="navigate/{{ nr - 1 }}"><</a></h1>
+						{%else%}
+							<!-- <h1><a href="navigate/0"><</a></h1> -->
+							<h1><</h1>
+						{%endif%}			
+				  </div>
+
+				  <div class="w3-container w3-cell w3-cell-middle">
+				     	<a href="/edit"><i class="fa fa-edit fa-2x"></i></a>
+				  </div>
+
+
+				  <div class="w3-container w3-cell w3-cell-middle">
+				    	{% if nr <= rows -1 %}
+							<h1><a href="navigate/{{ nr + 1 }}">></a></h1>
+						{%else%}
+							<!-- <h1><a href="navigate/{{ rows }}">></a></h1> -->
+							<h1>></h1>
+						{%endif%}			
+				  </div>
+
+				  <div class="w3-container w3-cell w3-cell-middle">
+				    <h1>>></h1>
+				  </div>
+
+				</div>
+
+  				<div class="w3-cell-row">
+
+				   <div class="w3-container w3-cell w3-cell-middle">
+				    
+				    	    	
+				  </div>
+
+				  <div class="w3-container w3-cell w3-cell-middle">
+				    		
+				  </div>
+
+				  <div class="w3-container w3-cell w3-cell-middle">
+				    		    	<p>Satz {{ nr + 1 }} von {{ rows + 1 }} <br>
+						           {{ vari  }} Varianten /// {{ variSum }} insgesamt </p>
+						        <!--<p>Direkt zu Satz [            ] Go!<p>-->
+				  </div>
+
+				  <div class="w3-container w3-cell w3-cell-middle">
+				    				
+				  </div>
+
+				  <div class="w3-container w3-cell w3-cell-middle">
+			
+				  </div>
+
+				</div>
+
+		  	</div>
+		  	<div class="w3-quarter w3-container">
+		    	<!-- Space  -->
+		  </div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+

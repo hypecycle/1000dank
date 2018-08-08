@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang = "de">
+<head>
+  <title>1000 Dank – {{ pageTitle }}</title>
+  <base href="{{ baseURL }}" target="_self">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--Live envoronment: add slash -->
+  <link rel="stylesheet" href="static/css/w3.css"> 
+  <link rel="stylesheet" href="static/css/w3-theme-black.css">
+  <link rel="stylesheet" href="static/css/addons1000dank.css">
+  <link rel="stylesheet" href="static/css/font-awesome.min.css">
+
+  <!--Fixed Footer -->
+  <style>
+  .footer {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      background-color: none;
+      color: black;
+      text-align: center;
+  }
+
+  </style>
+</head>
+
+<body>
+
+<!-- Side Navigation -->
+<nav class="w3-sidebar w3-bar-block w3-card w3-animate-left w3-center" style="display:none" id="mySidebar">
+  <h1 class="w3-xxxlarge w3-text-theme">Menu</h1>
+  <button class="w3-bar-item w3-button" onclick="w3_close()">Close <i class="fa fa-remove"></i></button>
+  <a href="{{ url_for('edit') }}" class="w3-bar-item w3-button">Bearbeiten</a>
+  <a href="{{ url_for('new') }}" class="w3-bar-item w3-button">Neu</a>
+  <a href="{{ url_for('build') }}" class="w3-bar-item w3-button">Varianten generieren</a>
+  <a href="{{ url_for('vari', variNr = 0, variPerPage = 10) }}" class="w3-bar-item w3-button">Varianten ansehen</a>
+</nav>
+
+<!-- Header -->
+<div class="w3-row w3-border w3-black">
+	<div class="w3-third w3-container w3-black w3-padding" id="myHeader">
+    <i onclick="w3_open()" class="fa fa-bars w3-xlarge w3-button w3-theme"></i>
+  </div>
+  <a href="{{ url_for('edit')}}">
+  <div class="w3-third w3-container">
+	<h4 class="w3-center">{{ pageTitle }}</h4>
+  </div>
+  </a>
+  <div class="w3-third w3-container">
+  	<!-- Space for info -->
+    <h5></h5>  
+  </div>
+</div>
+<br>
+
+
+<div class="w3-container w3-padding">
+       {% block content %}{% endblock %}
+<br>
+
+
+<!-- Script for Sidebar, Tabs, Accordions, Progress bars and slideshows -->
+<script>
+// Side navigation
+function w3_open() {
+    var x = document.getElementById("mySidebar");
+    x.style.width = "100%";
+    x.style.fontSize = "40px";
+    x.style.paddingTop = "10%";
+    x.style.display = "block";
+}
+function w3_close() {
+    document.getElementById("mySidebar").style.display = "none";
+}
+
+</script>
+
+
+</body>
+</html>

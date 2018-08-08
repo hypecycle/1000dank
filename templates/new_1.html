@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+
+<!---  --->
+
+<br>
+<br>
+
+<br>
+<br>
+
+
+<form  action="" method="post" role="form">
+{{ form.csrf }}
+
+	<div class="w3-container">
+		<div class="w3-row">
+			<h2>{{ form.alterNeu(class_='satz', id="name", placeholder='Text eingeben') }}</h2>
+			<input id="sendButt" name="addfriend" type="submit" value="OK" class="w3-black w3-hover-dark-grey w3-center satz">
+
+		</div>
+	</div>
+
+
+
+<!-- reduced footer -->
+
+<div class="footer ">
+	<div class="w3-container">
+  		<div class="w3-row">
+	  		<div class="w3-quarter w3-container">
+	  			<!-- Space  -->
+			</div>
+  			<div class="w3-half w3-container">
+
+  				<div class="w3-cell-row">
+
+				   <div class="w3-container w3-cell w3-cell-middle">			    	
+				  </div>
+
+				  <div class="w3-container w3-cell w3-cell-middle">
+				</div>
+
+				  <div class="w3-container w3-cell w3-cell-middle">
+				    		    	<p>Satz {{ rows + 1 }} von {{ rows + 1 }} <br>
+						           0 Varianten /// {{ variSum }} insgesamt </p>
+				  </div>
+
+				  <div class="w3-container w3-cell w3-cell-middle">	
+				  </div>
+
+				  <div class="w3-container w3-cell w3-cell-middle">
+				  </div>
+
+				</div>
+
+		  	</div>
+		  	<div class="w3-quarter w3-container">
+		    	<!-- Space  -->
+		  </div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
