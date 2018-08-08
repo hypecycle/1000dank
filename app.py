@@ -55,7 +55,8 @@ datastorage_22.py vari_1.py show vari
 datastorage_23.py saving random.shuffle for display
 datastorage_24.py tweaking internal display counter handling
 datastorage_25.py improving view
-datastorage_26.py conf json jandling, ready for deploy
+app.py conf json jandling, ready for deploy > FIRST COMMIT app.py
+app.py 0.27 manually initiate
 
 """
 
@@ -71,7 +72,7 @@ DBSCHEMA = """CREATE TABLE Saetze(
 			  Dorder    NUMBER);
 			  """
 
-config = json.load(open('conf.json', 'r+'))
+config = json.load(open('conf.json', 'r'))
 BASE_URL = config['url']
 SECRET_KEY = config['secret']
 DBFILENAME = config['db']
@@ -527,12 +528,18 @@ def display():
 							baseURL = BASE_URL,
 							)
 
+@app.route('/initial')
+def initial():
 
-if __name__ == '__main__':
-	# Initiate database and fill it with sample data
+	""" Manually nitiate database and fill it with sample data """
 	createDB(initial)
 	buildVari() # build DB of Variations
 	buildOrder() # build, shuffle and write order to DB
+
+	return redirect(url_for('edit'))
+
+
+if __name__ == '__main__':
 	app.run(debug=False)
 
 

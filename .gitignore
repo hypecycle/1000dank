@@ -2,3 +2,4 @@
 **/env
 conf.json
 **/__pycache__
+**/data
