@@ -59,6 +59,7 @@ datastorage_25.py improving view
 app.py conf json jandling, ready for deploy > FIRST COMMIT app.py
 app.py 0.27 manually initiate BUGGY
 app.py 0.28 setting up for internal, external use
+app.py 0.29 cleaning up git glitches
 
 """
 
