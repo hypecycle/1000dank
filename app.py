@@ -1,5 +1,6 @@
 import sqlite3
 import os
+import sys
 import json
 import random
 from flask import Flask, render_template, redirect, url_for, session, request
@@ -56,7 +57,8 @@ datastorage_23.py saving random.shuffle for display
 datastorage_24.py tweaking internal display counter handling
 datastorage_25.py improving view
 app.py conf json jandling, ready for deploy > FIRST COMMIT app.py
-app.py 0.27 manually initiate
+app.py 0.27 manually initiate BUGGY
+app.py 0.28 setting up for internal, external use
 
 """
 
@@ -73,15 +75,12 @@ DBSCHEMA = """CREATE TABLE Saetze(
 			  """
 
 config = json.load(open('conf.json', 'r'))
-BASE_URL = config['url']
 SECRET_KEY = config['secret']
 DBFILENAME = config['db']
-
 DISPLAY_COUNTER = 0
 
 session = {}
 session['satzStore'] = 0
-
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = SECRET_KEY
@@ -107,10 +106,9 @@ class neueAltern(Form):
 	alterNeu = StringField('Text', validators=[Required()])
 	sendButt = SubmitField(label='Sende')
 
-"""class jumpTo(Form):
-	satzNr = IntegerField('Nummer', validators=[Required()])
-	send = SubmitField('Senden')"""
 
+
+# ------------------------ INITIAL creation and initial fill -------------------
 
 def createDB(initial):
 	"""Creates and inits DB. Needs DBFILENAME and DBSCHEMA as OSvars
@@ -126,8 +124,6 @@ def createDB(initial):
 			print('DB existiert')
 
 	return
-
-# ------------------------ INITIAL creation and initial fill -------------------
 
 def initialFill(initial):
 	"""Called, if DB doesnt' exist yet
@@ -528,19 +524,31 @@ def display():
 							baseURL = BASE_URL,
 							)
 
-@app.route('/initial')
+"""@app.route('/initial')
 def initial():
 
-	""" Manually nitiate database and fill it with sample data """
+	# Manually nitiate database and fill it with sample data
 	createDB(initial)
 	buildVari() # build DB of Variations
 	buildOrder() # build, shuffle and write order to DB
 
-	return redirect(url_for('edit'))
+	return redirect(url_for('edit'))"""
 
 
 if __name__ == '__main__':
+	BASE_URL = config['url_int']
+	createDB(initial)
+	buildVari() # build DB of Variations
+	buildOrder() # build, shuffle and write order to DB
 	app.run(debug=False)
+else:
+	# import libraries in lib directory
+	base_path = os.path.dirname(__file__)
+	sys.path.insert(0, os.path.join(base_path, 'lib'))
 
+	BASE_URL = config['url_ext']
+	createDB(initial)
+	buildVari() # build DB of Variations
+	buildOrder() # build, shuffle and write order to DB
 
 

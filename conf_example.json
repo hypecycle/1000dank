@@ -1,0 +1,6 @@
+{
+    "secret": "SECRET_KEY_GOES_HERE",
+    "url_int": "BASE URL ON DEV SERVER",
+    "url_ext": "BASE URL ON PRODUCTION SERVER",
+    "db": "DB NAME"
+}
