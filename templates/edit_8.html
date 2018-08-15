@@ -20,7 +20,7 @@
 						{{ satz[i][0] }}&nbsp;{% if satz[i]|length() > 1 %}<a class = "satz" href="delete/{{ nr }}/{{ i }}/0"><i class="fa fa-close fa-1x"></i></a>{% endif %}
 					{% endif %}
 					{% if i == satz|length() %}
-					<a class = "satz" href="addlink/{{ nr }}/{{ i }}/0"><i class="fa fa-plus fa-1x"></i></a>
+					<a class = "satz" href="{{ url_for('addfield', satznr = nr, satzteilnr = i, alternatnr = 0) }}"><i class="fa fa-plus fa-1x"></i></a>
 					{% endif %}
 					</h2>
 				</div>
@@ -40,7 +40,7 @@
 								<a class = "satz" href="delete/{{ nr }}/{{ i }}/{{ j }}"><i class="fa fa-close fa-1x"></i></a></p> 
 						{% elif j == satz[i]|length()  %}
 							<p class="satz">{{ satz[i][j] }}&nbsp; 
-								<a class = "satz" href="addlink/{{ nr }}/{{ i }}/{{ j }}"><i class="fa fa-plus fa-1x"></i></a></p> 
+								<a class = "satz" href="{{ url_for('addfield', satznr = nr, satzteilnr = i, alternatnr = j) }}"><i class="fa fa-plus fa-1x"></i></a></p> 
 							&nbsp
 						{% endif %}
 					{% endif %}
@@ -70,7 +70,7 @@
 				  				   <div class="w3-container w3-cell w3-cell-middle">
 				    
 				    	{% if nr >= 10 %}
-							<a href="navigate/{{ nr - 10 }}"><i class="fa fa-double-angle-left fa-1x"></i></a>
+							<a href="{{ url_for('edit_new', satznr = nr - 10) }}"><i class="fa fa-double-angle-left fa-1x"></i></a>
 						{%else%}
 							<h1 class = "w3-text-light-gray"><<</h1> 
 						{%endif%}				    	
@@ -78,7 +78,7 @@
 
 				  <div class="w3-container w3-cell w3-cell-middle">
 				    	{% if nr >= 1 %}
-							<h1><a href="navigate/{{ nr - 1 }}"><</a></h1>
+							<h1><a href="{{ url_for('edit_new', satznr = nr - 1) }}"><</a></h1>
 						{%else%}
 							<h1 class = "w3-text-light-gray"><</h1>
 						{%endif%}			
@@ -91,7 +91,7 @@
 
 				  <div class="w3-container w3-cell w3-cell-middle">
 				    	{% if nr <= rows -1 %}
-							<h1><a href="navigate/{{ nr + 1 }}">></a></h1>
+							<h1><a href="{{ url_for('edit_new', satznr = nr + 1) }}">></a></h1>
 						{%else%}
 							<h1 class = "w3-text-light-gray">></h1>
 						{%endif%}			
@@ -99,7 +99,7 @@
 
 				  <div class="w3-container w3-cell w3-cell-middle">
 				    	{% if nr <= rows - 10 %}
-							<h1><a href="navigate/{{ nr + 10 }}">>></a></h1>
+							<h1><a href="{{ url_for('edit_new', satznr = nr + 10) }}">>></a></h1>
 						{%else%}
 							<h1 class = "w3-text-light-gray">>></h1>
 						{%endif%}			

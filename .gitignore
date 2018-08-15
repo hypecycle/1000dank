@@ -3,3 +3,4 @@
 conf.json
 **/__pycache__
 1000dank.db
+**.log

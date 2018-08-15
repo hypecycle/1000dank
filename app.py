@@ -3,9 +3,11 @@ import os
 import sys
 import json
 import random
-from flask import Flask, render_template, redirect, url_for, session, request
+from flask import Flask, render_template, redirect, url_for, request
 from wtforms import Form, StringField, IntegerField, SubmitField
 from wtforms.validators import Required
+import logging
+from logging.handlers import RotatingFileHandler
 
 
 
@@ -33,33 +35,11 @@ Tabelle Varianten
 
 internal dict{1: ['word'], 2 }
 
-datastorage_6.py writing, fetching works
-datastorage_7.py moving retrieve to funct 
-datastorage_8.py moving to dict 
-datastorage_9.py serve with flask – works with edit_1.html
-datastorage_10.py serve with flask – works with edit_2.html
-				  building index with text format. Delet started
-datastorage_11.py works with edit_3.html – Careful: List popping works by accident
-datastorage_12.py view_2.html tweaking view screen
-datastorage_13.py view_3.html navigation
-				  view_4.html for better format
-datastorage_14.py view_4.html edit_4.html deleting
-datastorage_14.py edit_4.html adding next row 
-datastorage_15.py view_5 edit_5.html switching to container inst of table 
-datastorage_16.py edit_6.html addfield_1.html wtf
-datastorage_17.py edit_6.html addfield_1.html wtf populating add
-datastorage_18.py edit_6.html addfield_1.html database rewritten as in 17f
-datastorage_19.py edit_6.html addfield_1.html view_6.html new_1.html adding new set
-datastorage_20.py edit_7.html losing view mode
-datastorage_21.py edit_7.html Writing vas in DB
-datastorage_22.py vari_1.py show vari
-datastorage_23.py saving random.shuffle for display
-datastorage_24.py tweaking internal display counter handling
-datastorage_25.py improving view
 app.py conf json jandling, ready for deploy > FIRST COMMIT app.py
 app.py 0.27 manually initiate BUGGY
 app.py 0.28 setting up for internal, external use
 app.py 0.29 cleaning up git glitches
+app.py 0.30 lose session w/edit_8
 
 """
 
@@ -80,12 +60,16 @@ SECRET_KEY = config['secret']
 DBFILENAME = config['db']
 DISPLAY_COUNTER = 0
 
-session = {}
-session['satzStore'] = 0
+# -------------------------- LOGGING defined -------------------------------
+
+handler = RotatingFileHandler(config['log'], maxBytes=10000, backupCount=1)
+formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+handler.setFormatter(formatter)
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = SECRET_KEY
-
+app.logger.addHandler(handler)
+app.logger.setLevel(logging.INFO)
 
 initial =  [
 		{0:["Danke,", "Fein,", "Wie schön"],
@@ -102,11 +86,10 @@ initial =  [
          3: ["mitten in der Nacht", "um 3 Uhr"], 4: ["besuchst"]}
          ]
 
-			
+
 class neueAltern(Form):
 	alterNeu = StringField('Text', validators=[Required()])
 	sendButt = SubmitField(label='Sende')
-
 
 
 # ------------------------ INITIAL creation and initial fill -------------------
@@ -134,7 +117,7 @@ def initialFill(initial):
 	"""
 	with sqlite3.connect(DBFILENAME) as conn:
 		cursor = conn.cursor()
-		
+
 		for i in range(len(initial)):
 			cursor.execute("INSERT INTO Saetze VALUES (?, ?, ?)", (str(i), json.dumps(initial[i]), str(countVari(initial[i]))))
 		print('DB filled with sample Data')
@@ -147,7 +130,7 @@ def satzKeyToInt(satzOld):
 	"""
 	i = 0
 	satzNew = {}
-	
+
 	for istr in satzOld:
 		#print(satzSQ[istr])
 		satzNew[i] = satzOld[istr]
@@ -358,16 +341,21 @@ def calcRowLastField (satz, fieldToAdd):
 
 # ----------------------------- VIEW functions  -----------------------------
 
+
 @app.route('/')
 def edit():
-	if session.get('satzStore'):
-		satznr = session.get('satzStore')
-	else:
-		satznr = 0 # not jet handled in this session
+	return "Start"
+
+@app.route('/edit/<int:satznr>')
+def edit_new(satznr):
+
+	print(satznr)
 
 	satz = loadSatz(satznr)
 
-	return render_template('edit_7.html', 
+	app.logger.debug('Edit Satz Nr %d', satznr)
+
+	return render_template('edit_8.html',
 							satz = satz, 
 							nr = satznr, 
 							maxAltern = calcMaxAltern(satz),
@@ -379,13 +367,17 @@ def edit():
 							baseURL = BASE_URL,
 							)
 
-@app.route('/addfield', methods=['GET', 'POST'])
-def addfield():
-	fieldToAdd = session['fieldAdd']
-	print(fieldToAdd)
-	form = neueAltern(request.form)
 
-	satznr = session.get('satzStore')
+@app.route('/addfield//<int:satznr>/<int:satzteilnr>/<int:alternatnr>', methods=['GET', 'POST'])
+def addfield(satznr, satzteilnr, alternatnr):
+	fieldToAdd = []
+	fieldToAdd.append(satzteilnr)
+	fieldToAdd.append(alternatnr)
+
+
+	print(fieldToAdd)
+
+	form = neueAltern(request.form)
 
 	satz = loadSatz(satznr)
 
@@ -393,20 +385,21 @@ def addfield():
 		alterNEnter=request.form['alterNeu']
 		if len(satz) <= fieldToAdd[0]: # This is True, if new Satzteil is added
 			satz[fieldToAdd[0]] = []
-		satzToAdd = satz[fieldToAdd[0]] 
+		satzToAdd = satz[satzteilnr] 
 		satzToAdd.append(alterNEnter) # ??? Works by magic
 		updSatz(satz, satznr)
 		#print(satz)
 		#print(alterNEnter)
-		return redirect(url_for('edit'))
+		return redirect(url_for('edit_new', satznr = satznr))
 
 
-	return render_template('addfield_1.html', 
+	return render_template('addfield_2.html', 
 							satz = satz, 
 							nr = satznr, 
 							maxAltern = calcMaxAltern(satz),
 							rows = rowsSaetze(),
 							vari = countVari(satz),
+							variSum = sumVari(),
 							charsRow = calcRowLastField(satz, fieldToAdd),
 							form = form,
 							fieldToAdd = fieldToAdd,
@@ -426,8 +419,8 @@ def new():
 		vari=request.form['alterNeu']
 		satz[1].append(vari)
 		newSatz(satz, satzToAdd)
-		session['satzStore'] = int(satzToAdd)
-		return redirect(url_for('edit'))
+		app.logger.info('Created Satz Nr %d', satzToAdd)
+		return redirect(url_for('edit_new', satznr = satzToAdd))
 
 
 	return render_template('new_1.html', 
@@ -448,22 +441,8 @@ def delete(satznr, satzteilnr, alternatnr):
 	satzToDel[int(satzteilnr)] = deleted
 	updSatz(satzToDel, satznr) # ??? updSatz is being popped, too. Works by magic 
 	print(deleted)
-	return redirect(url_for('edit'))
+	return redirect(url_for('edit_new', satznr = satznr))
 
-
-@app.route('/addlink/<int:satznr>/<int:satzteilnr>/<int:alternatnr>')
-def addlink(satznr, satzteilnr, alternatnr):
-	session['fieldAdd'] = [satzteilnr, alternatnr]
-	#session['fieldAdd'].append(satzteilnr)
-	#session['fieldAdd'].append(alternatnr)
-	return redirect(url_for('addfield'))	
-
-
-@app.route('/navigate/<int:satznr>')
-def navigate(satznr):
-	if int(satznr) >= 0 and int(satznr) <= rowsSaetze(): 
-		session['satzStore'] = int(satznr)
-	return redirect(url_for('edit'))
 
 
 @app.route('/build')
@@ -472,7 +451,7 @@ def build():
 	"""
 	buildVari() # build DB of Variations
 	buildOrder() # build, shuffle and write order to DB
-	return redirect(url_for('edit'))
+	return redirect(url_for('edit_new', satznr = 0))
 
 
 @app.route('/vari/<int:variNr>/<int:variPerPage>')
@@ -510,13 +489,15 @@ def display():
 	"""Display new version each time func is called
 	"""
 
-	global DISPLAY_COUNTER 
+	global DISPLAY_COUNTER
 
 	if DISPLAY_COUNTER >= sumVari() -1:
 		DISPLAY_COUNTER = 0
 	else:
 		DISPLAY_COUNTER += 1
 
+
+	app.logger.debug('Display  message %d', DISPLAY_COUNTER)
 
 	return render_template('display_2.html',
 							displayText = loadVByOrd(DISPLAY_COUNTER),
@@ -541,7 +522,7 @@ if __name__ == '__main__':
 	createDB(initial)
 	buildVari() # build DB of Variations
 	buildOrder() # build, shuffle and write order to DB
-	app.run(debug=False)
+	app.run(debug=True)
 else:
 	# import libraries in lib directory
 	base_path = os.path.dirname(__file__)
@@ -551,5 +532,6 @@ else:
 	createDB(initial)
 	buildVari() # build DB of Variations
 	buildOrder() # build, shuffle and write order to DB
+
 
 
